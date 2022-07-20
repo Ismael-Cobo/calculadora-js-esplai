@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <main class="container">
+    <div class="result">
+      <div id="result">0</div>
+    </div>
+    <div class="btn_wrapper">
+      <button onclick="pulsar('c')">C</button>
+      <button onclick="pulsar('/')">/</button>
+      <button onclick="pulsar('*')">*</button>
+      <button onclick="pulsar('9')">9</button>
+      <button onclick="pulsar('8')">8</button>
+      <button onclick="pulsar('7')">7</button>
+      <button onclick="pulsar('-')">-</button>
+      <button onclick="pulsar('6')">6</button>
+      <button onclick="pulsar('5')">5</button>
+      <button onclick="pulsar('4')">4</button>
+      <button onclick="pulsar('+')">+</button>
+      <button onclick="pulsar('3')">3</button>
+      <button onclick="pulsar('2')">2</button>
+      <button onclick="pulsar('1')">1</button>
+      <button onclick="pulsar('0')">0</button>
+      <button> </button>
+      <button> </button>
+      <button onclick="pulsar('=')">=</button>
+    </div>
+  </main>
+
+
+  <script>
+
+    let result = document.querySelector('#result')
+    let operation = []
+    let isNumber = true
+    let number = 0;
+    let anterior = 0
+
+    const pulsar = (value) => {
+
+      if (result.textContent.charAt(0) === '0') {
+
+        number = value
+        result.innerHTML = number
+        return
+      }
+
+      switch (!isNaN(value)) {
+        case true:
+          number += value
+          result.innerHTML = number
+          break
+        default:
+          operation.push(Number(number))
+          number = ''
+          result.innerHTML = value
+
+          operation.push(value)
+
+          if (value === '=') {
+            result.innerHTML = calcular(operation)
+            operation = []
+          }
+
+          if (value === 'c') {
+
+            number = 0
+            operation = []
+            result.innerHTML = 0
+          }
+          break;
+      }
+
+    }
+
+
+    const calcular = (op = []) => {
+
+      let total = 0
+
+      for (let i = 0; i < op.length; i++) {
+
+        if (op[i] === '+') {
+          total = i === 1 ? op[i - 1] + op[i + 1] : total + op[i + 1]
+        }
+
+        if (op[i] === '-') {
+          total = i === 1 ? op[i - 1] - op[i + 1] : total - op[i + 1]
+        }
+
+        if (op[i] === '*') {
+          total = i === 1 ? op[i - 1] * op[i + 1] : total * op[i + 1]
+        }
+
+        if (op[i] === '/') {
+          total = i === 1 ? op[i - 1] / op[i + 1] : total / op[i + 1]
+        }
+
+      }
+
+      return total
+
+    }
+
+  </script>
+
+</body>
+
+</html>
